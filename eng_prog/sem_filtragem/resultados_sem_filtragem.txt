@@ -5,24 +5,24 @@
 === Resultados para n = 1000 ===
   Sem eliminação de outliers (Dados Brutos):
     Elementos mantidos : 100 / 100
-    Média              : 4.108e-05 s
-    Desvio Padrão      : 2.890e-06 s
-    CV                 : 0.0703
+    Média              : 2.445e-07 s
+    Desvio Padrão      : 1.383e-08 s
+    CV                 : 0.0566
     CV < 0.15 ?        : True
 
 === Resultados para n = 10000 ===
   Sem eliminação de outliers (Dados Brutos):
     Elementos mantidos : 100 / 100
-    Média              : 4.284e-04 s
-    Desvio Padrão      : 3.298e-05 s
-    CV                 : 0.0770
+    Média              : 2.413e-07 s
+    Desvio Padrão      : 6.435e-09 s
+    CV                 : 0.0267
     CV < 0.15 ?        : True
 
 === Resultados para n = 100000 ===
   Sem eliminação de outliers (Dados Brutos):
     Elementos mantidos : 100 / 100
-    Média              : 4.270e-03 s
-    Desvio Padrão      : 5.116e-05 s
-    CV                 : 0.0120
+    Média              : 2.276e-07 s
+    Desvio Padrão      : 2.527e-08 s
+    CV                 : 0.1110
     CV < 0.15 ?        : True
 

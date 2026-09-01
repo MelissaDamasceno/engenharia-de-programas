@@ -4,46 +4,46 @@
 
 === Resultados para n = 1000 ===
   Filtro com x = 2 desvios padrão (Regra 2σ):
-    Elementos mantidos : 96 / 100
-    Média              : 4.056e-05 s
-    Desvio Padrão      : 8.155e-07 s
-    CV                 : 0.0201
+    Elementos mantidos : 95 / 100
+    Média              : 2.423e-07 s
+    Desvio Padrão      : 9.658e-09 s
+    CV                 : 0.0399
     CV < 0.15 ?        : True
 
   Filtro com x = 3 desvios padrão (Regra 3σ):
-    Elementos mantidos : 98 / 100
-    Média              : 4.071e-05 s
-    Desvio Padrão      : 1.317e-06 s
-    CV                 : 0.0324
+    Elementos mantidos : 99 / 100
+    Média              : 2.438e-07 s
+    Desvio Padrão      : 1.178e-08 s
+    CV                 : 0.0483
     CV < 0.15 ?        : True
 
 === Resultados para n = 10000 ===
   Filtro com x = 2 desvios padrão (Regra 2σ):
-    Elementos mantidos : 99 / 100
-    Média              : 4.251e-04 s
-    Desvio Padrão      : 6.140e-06 s
-    CV                 : 0.0144
+    Elementos mantidos : 95 / 100
+    Média              : 2.401e-07 s
+    Desvio Padrão      : 4.148e-09 s
+    CV                 : 0.0173
     CV < 0.15 ?        : True
 
   Filtro com x = 3 desvios padrão (Regra 3σ):
-    Elementos mantidos : 99 / 100
-    Média              : 4.251e-04 s
-    Desvio Padrão      : 6.140e-06 s
-    CV                 : 0.0144
+    Elementos mantidos : 96 / 100
+    Média              : 2.403e-07 s
+    Desvio Padrão      : 4.522e-09 s
+    CV                 : 0.0188
     CV < 0.15 ?        : True
 
 === Resultados para n = 100000 ===
   Filtro com x = 2 desvios padrão (Regra 2σ):
-    Elementos mantidos : 98 / 100
-    Média              : 4.264e-03 s
-    Desvio Padrão      : 2.024e-05 s
-    CV                 : 0.0047
+    Elementos mantidos : 92 / 100
+    Média              : 2.335e-07 s
+    Desvio Padrão      : 1.609e-08 s
+    CV                 : 0.0689
     CV < 0.15 ?        : True
 
   Filtro com x = 3 desvios padrão (Regra 3σ):
-    Elementos mantidos : 99 / 100
-    Média              : 4.265e-03 s
-    Desvio Padrão      : 2.365e-05 s
-    CV                 : 0.0055
+    Elementos mantidos : 98 / 100
+    Média              : 2.292e-07 s
+    Desvio Padrão      : 2.298e-08 s
+    CV                 : 0.1003
     CV < 0.15 ?        : True
 

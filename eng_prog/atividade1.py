@@ -16,19 +16,21 @@ os.makedirs(pasta_metodo2, exist_ok=True)
 
 lista_n = [1000, 10000, 100000]
 R = 100
-t = []
+TAU_A = []
 
 # Medição dos tempos
 print("Coletando medições de tempo...")
 for n in lista_n:
     tt = []
     for r in range(R):
-        tic = time()
+        t = 0
         for i in range(n):
+            tic = time()
             x = 1
-        toc = time()
-        tt.append(toc - tic)
-    t.append(tt)
+            toc = time()
+            t += toc - tic
+        tt.append(t / n)  # tempo medio por iteracao nesta repeticao
+    TAU_A.append(tt)
 
 # Método 1: Eliminar outliers usando a regra de x desvios padrão (x = 2 ou x = 3)
 def eliminar_outliers_desvio(tt, x=3):
@@ -51,7 +53,7 @@ txt_sem_filtragem_lines = ["========================================\n",
                            "  RELATÓRIO DE RESULTADOS: SEM FILTRAGEM (DADOS BRUTOS)\n",
                            "========================================\n\n"]
 
-for n, tt in zip(lista_n, t):
+for n, tt in zip(lista_n, TAU_A):
     tt = np.array(tt)
     txt_sem_filtragem_lines.append(f"=== Resultados para n = {n} ===\n")
     
@@ -95,7 +97,7 @@ txt_metodo1_lines = ["========================================\n",
                      "  RELATÓRIO DE RESULTADOS: MÉTODO 1 (DESVIO PADRÃO)\n",
                      "========================================\n\n"]
 
-for n, tt in zip(lista_n, t):
+for n, tt in zip(lista_n, TAU_A):
     tt = np.array(tt)
     txt_metodo1_lines.append(f"=== Resultados para n = {n} ===\n")
     
@@ -141,7 +143,7 @@ txt_metodo2_lines = ["========================================\n",
                      "  RELATÓRIO DE RESULTADOS: MÉTODO 2 (CORTE PERCENTUAL)\n",
                      "========================================\n\n"]
 
-for n, tt in zip(lista_n, t):
+for n, tt in zip(lista_n, TAU_A):
     tt = np.array(tt)
     txt_metodo2_lines.append(f"=== Resultados para n = {n} ===\n")
     
