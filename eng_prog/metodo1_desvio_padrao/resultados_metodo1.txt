@@ -1,0 +1,49 @@
+========================================
+  RELATÓRIO DE RESULTADOS: MÉTODO 1 (DESVIO PADRÃO)
+========================================
+
+=== Resultados para n = 1000 ===
+  Filtro com x = 2 desvios padrão (Regra 2σ):
+    Elementos mantidos : 96 / 100
+    Média              : 4.056e-05 s
+    Desvio Padrão      : 8.155e-07 s
+    CV                 : 0.0201
+    CV < 0.15 ?        : True
+
+  Filtro com x = 3 desvios padrão (Regra 3σ):
+    Elementos mantidos : 98 / 100
+    Média              : 4.071e-05 s
+    Desvio Padrão      : 1.317e-06 s
+    CV                 : 0.0324
+    CV < 0.15 ?        : True
+
+=== Resultados para n = 10000 ===
+  Filtro com x = 2 desvios padrão (Regra 2σ):
+    Elementos mantidos : 99 / 100
+    Média              : 4.251e-04 s
+    Desvio Padrão      : 6.140e-06 s
+    CV                 : 0.0144
+    CV < 0.15 ?        : True
+
+  Filtro com x = 3 desvios padrão (Regra 3σ):
+    Elementos mantidos : 99 / 100
+    Média              : 4.251e-04 s
+    Desvio Padrão      : 6.140e-06 s
+    CV                 : 0.0144
+    CV < 0.15 ?        : True
+
+=== Resultados para n = 100000 ===
+  Filtro com x = 2 desvios padrão (Regra 2σ):
+    Elementos mantidos : 98 / 100
+    Média              : 4.264e-03 s
+    Desvio Padrão      : 2.024e-05 s
+    CV                 : 0.0047
+    CV < 0.15 ?        : True
+
+  Filtro com x = 3 desvios padrão (Regra 3σ):
+    Elementos mantidos : 99 / 100
+    Média              : 4.265e-03 s
+    Desvio Padrão      : 2.365e-05 s
+    CV                 : 0.0055
+    CV < 0.15 ?        : True
+

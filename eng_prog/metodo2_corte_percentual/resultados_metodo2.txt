@@ -1,0 +1,49 @@
+========================================
+  RELATÓRIO DE RESULTADOS: MÉTODO 2 (CORTE PERCENTUAL)
+========================================
+
+=== Resultados para n = 1000 ===
+  Filtro cortando 2% do início e final:
+    Elementos mantidos : 96 / 100
+    Média              : 4.073e-05 s
+    Desvio Padrão      : 1.326e-06 s
+    CV                 : 0.0326
+    CV < 0.15 ?        : True
+
+  Filtro cortando 5% do início e final:
+    Elementos mantidos : 90 / 100
+    Média              : 4.054e-05 s
+    Desvio Padrão      : 6.451e-07 s
+    CV                 : 0.0159
+    CV < 0.15 ?        : True
+
+=== Resultados para n = 10000 ===
+  Filtro cortando 2% do início e final:
+    Elementos mantidos : 96 / 100
+    Média              : 4.247e-04 s
+    Desvio Padrão      : 3.751e-06 s
+    CV                 : 0.0088
+    CV < 0.15 ?        : True
+
+  Filtro cortando 5% do início e final:
+    Elementos mantidos : 90 / 100
+    Média              : 4.244e-04 s
+    Desvio Padrão      : 2.204e-06 s
+    CV                 : 0.0052
+    CV < 0.15 ?        : True
+
+=== Resultados para n = 100000 ===
+  Filtro cortando 2% do início e final:
+    Elementos mantidos : 96 / 100
+    Média              : 4.265e-03 s
+    Desvio Padrão      : 1.972e-05 s
+    CV                 : 0.0046
+    CV < 0.15 ?        : True
+
+  Filtro cortando 5% do início e final:
+    Elementos mantidos : 90 / 100
+    Média              : 4.263e-03 s
+    Desvio Padrão      : 1.424e-05 s
+    CV                 : 0.0033
+    CV < 0.15 ?        : True
+

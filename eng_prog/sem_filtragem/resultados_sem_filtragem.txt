@@ -1,0 +1,28 @@
+========================================
+  RELATÓRIO DE RESULTADOS: SEM FILTRAGEM (DADOS BRUTOS)
+========================================
+
+=== Resultados para n = 1000 ===
+  Sem eliminação de outliers (Dados Brutos):
+    Elementos mantidos : 100 / 100
+    Média              : 4.108e-05 s
+    Desvio Padrão      : 2.890e-06 s
+    CV                 : 0.0703
+    CV < 0.15 ?        : True
+
+=== Resultados para n = 10000 ===
+  Sem eliminação de outliers (Dados Brutos):
+    Elementos mantidos : 100 / 100
+    Média              : 4.284e-04 s
+    Desvio Padrão      : 3.298e-05 s
+    CV                 : 0.0770
+    CV < 0.15 ?        : True
+
+=== Resultados para n = 100000 ===
+  Sem eliminação de outliers (Dados Brutos):
+    Elementos mantidos : 100 / 100
+    Média              : 4.270e-03 s
+    Desvio Padrão      : 5.116e-05 s
+    CV                 : 0.0120
+    CV < 0.15 ?        : True
+
