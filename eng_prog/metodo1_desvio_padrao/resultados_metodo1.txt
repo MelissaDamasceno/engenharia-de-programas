@@ -1,49 +1,62 @@
 ========================================
-  RELATÓRIO DE RESULTADOS: MÉTODO 1 (DESVIO PADRÃO)
+  METADADOS E CONDIÇÕES DO EXPERIMENTO  
+========================================
+  Processador          : 12th Gen Intel(R) Core(TM) i5-1235U
+  Núcleos / Threads    : 12
+  Memória RAM          : 16 GB
+  Sistema Operacional  : Ubuntu 24.04.4 LTS (Linux 7.0.0-29-generic)
+  Versão do Python     : 3.12.12
+  Fonte de Energia     : Conectado à Tomada (AC)
+  Perfil de Energia    : Performance (Desempenho)
+  Aplicações de Fundo  : Fechadas (Ambiente Limpo)
+========================================
+
+========================================
+  RELATÓRIO DE RESULTADOS ATRIBUIÇÃO: MÉTODO 1 (DESVIO PADRÃO)
 ========================================
 
 === Resultados para n = 1000 ===
   Filtro com x = 2 desvios padrão (Regra 2σ):
-    Elementos mantidos : 95 / 100
-    Média              : 2.423e-07 s
-    Desvio Padrão      : 9.658e-09 s
-    CV                 : 0.0399
-    CV < 0.15 ?        : True
-
-  Filtro com x = 3 desvios padrão (Regra 3σ):
-    Elementos mantidos : 99 / 100
-    Média              : 2.438e-07 s
-    Desvio Padrão      : 1.178e-08 s
-    CV                 : 0.0483
-    CV < 0.15 ?        : True
-
-=== Resultados para n = 10000 ===
-  Filtro com x = 2 desvios padrão (Regra 2σ):
-    Elementos mantidos : 95 / 100
-    Média              : 2.401e-07 s
-    Desvio Padrão      : 4.148e-09 s
-    CV                 : 0.0173
-    CV < 0.15 ?        : True
-
-  Filtro com x = 3 desvios padrão (Regra 3σ):
-    Elementos mantidos : 96 / 100
-    Média              : 2.403e-07 s
-    Desvio Padrão      : 4.522e-09 s
-    CV                 : 0.0188
-    CV < 0.15 ?        : True
-
-=== Resultados para n = 100000 ===
-  Filtro com x = 2 desvios padrão (Regra 2σ):
-    Elementos mantidos : 92 / 100
-    Média              : 2.335e-07 s
-    Desvio Padrão      : 1.609e-08 s
-    CV                 : 0.0689
+    Elementos mantidos : 93 / 100
+    Média              : 5.068e-08 s
+    Desvio Padrão      : 3.527e-09 s
+    CV                 : 0.0696
     CV < 0.15 ?        : True
 
   Filtro com x = 3 desvios padrão (Regra 3σ):
     Elementos mantidos : 98 / 100
-    Média              : 2.292e-07 s
-    Desvio Padrão      : 2.298e-08 s
-    CV                 : 0.1003
+    Média              : 5.023e-08 s
+    Desvio Padrão      : 4.497e-09 s
+    CV                 : 0.0895
+    CV < 0.15 ?        : True
+
+=== Resultados para n = 10000 ===
+  Filtro com x = 2 desvios padrão (Regra 2σ):
+    Elementos mantidos : 96 / 100
+    Média              : 5.082e-08 s
+    Desvio Padrão      : 1.188e-09 s
+    CV                 : 0.0234
+    CV < 0.15 ?        : True
+
+  Filtro com x = 3 desvios padrão (Regra 3σ):
+    Elementos mantidos : 97 / 100
+    Média              : 5.077e-08 s
+    Desvio Padrão      : 1.293e-09 s
+    CV                 : 0.0255
+    CV < 0.15 ?        : True
+
+=== Resultados para n = 100000 ===
+  Filtro com x = 2 desvios padrão (Regra 2σ):
+    Elementos mantidos : 96 / 100
+    Média              : 5.185e-08 s
+    Desvio Padrão      : 4.263e-10 s
+    CV                 : 0.0082
+    CV < 0.15 ?        : True
+
+  Filtro com x = 3 desvios padrão (Regra 3σ):
+    Elementos mantidos : 98 / 100
+    Média              : 5.187e-08 s
+    Desvio Padrão      : 4.500e-10 s
+    CV                 : 0.0087
     CV < 0.15 ?        : True
 

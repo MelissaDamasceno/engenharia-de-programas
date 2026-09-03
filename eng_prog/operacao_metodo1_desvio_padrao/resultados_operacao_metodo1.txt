@@ -1,0 +1,62 @@
+========================================
+  METADADOS E CONDIÇÕES DO EXPERIMENTO  
+========================================
+  Processador          : 12th Gen Intel(R) Core(TM) i5-1235U
+  Núcleos / Threads    : 12
+  Memória RAM          : 16 GB
+  Sistema Operacional  : Ubuntu 24.04.4 LTS (Linux 7.0.0-29-generic)
+  Versão do Python     : 3.12.12
+  Fonte de Energia     : Conectado à Tomada (AC)
+  Perfil de Energia    : Performance (Desempenho)
+  Aplicações de Fundo  : Fechadas (Ambiente Limpo)
+========================================
+
+========================================
+  RELATÓRIO DE RESULTADOS OPERAÇÃO (a + b): MÉTODO 1 (DESVIO PADRÃO)
+========================================
+
+=== Resultados Operação para n = 1000 ===
+  Filtro com x = 2 desvios padrão (Regra 2σ):
+    Elementos mantidos : 94 / 100
+    Média (tau_o)      : 1.186e-08 s
+    Desvio Padrão      : 4.587e-09 s
+    CV                 : 0.3869
+    CV < 0.15 ?        : False
+
+  Filtro com x = 3 desvios padrão (Regra 3σ):
+    Elementos mantidos : 100 / 100
+    Média (tau_o)      : 1.221e-08 s
+    Desvio Padrão      : 5.553e-09 s
+    CV                 : 0.4549
+    CV < 0.15 ?        : False
+
+=== Resultados Operação para n = 10000 ===
+  Filtro com x = 2 desvios padrão (Regra 2σ):
+    Elementos mantidos : 95 / 100
+    Média (tau_o)      : 1.102e-08 s
+    Desvio Padrão      : 1.773e-09 s
+    CV                 : 0.1609
+    CV < 0.15 ?        : False
+
+  Filtro com x = 3 desvios padrão (Regra 3σ):
+    Elementos mantidos : 96 / 100
+    Média (tau_o)      : 1.093e-08 s
+    Desvio Padrão      : 1.951e-09 s
+    CV                 : 0.1785
+    CV < 0.15 ?        : False
+
+=== Resultados Operação para n = 100000 ===
+  Filtro com x = 2 desvios padrão (Regra 2σ):
+    Elementos mantidos : 94 / 100
+    Média (tau_o)      : 1.001e-08 s
+    Desvio Padrão      : 5.826e-10 s
+    CV                 : 0.0582
+    CV < 0.15 ?        : True
+
+  Filtro com x = 3 desvios padrão (Regra 3σ):
+    Elementos mantidos : 99 / 100
+    Média (tau_o)      : 1.007e-08 s
+    Desvio Padrão      : 7.043e-10 s
+    CV                 : 0.0699
+    CV < 0.15 ?        : True
+

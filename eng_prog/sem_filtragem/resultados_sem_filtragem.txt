@@ -1,28 +1,41 @@
 ========================================
-  RELATÓRIO DE RESULTADOS: SEM FILTRAGEM (DADOS BRUTOS)
+  METADADOS E CONDIÇÕES DO EXPERIMENTO  
+========================================
+  Processador          : 12th Gen Intel(R) Core(TM) i5-1235U
+  Núcleos / Threads    : 12
+  Memória RAM          : 16 GB
+  Sistema Operacional  : Ubuntu 24.04.4 LTS (Linux 7.0.0-29-generic)
+  Versão do Python     : 3.12.12
+  Fonte de Energia     : Conectado à Tomada (AC)
+  Perfil de Energia    : Performance (Desempenho)
+  Aplicações de Fundo  : Fechadas (Ambiente Limpo)
+========================================
+
+========================================
+  RELATÓRIO DE RESULTADOS ATRIBUIÇÃO: SEM FILTRAGEM (DADOS BRUTOS)
 ========================================
 
 === Resultados para n = 1000 ===
   Sem eliminação de outliers (Dados Brutos):
     Elementos mantidos : 100 / 100
-    Média              : 2.445e-07 s
-    Desvio Padrão      : 1.383e-08 s
-    CV                 : 0.0566
+    Média              : 5.030e-08 s
+    Desvio Padrão      : 5.207e-09 s
+    CV                 : 0.1035
     CV < 0.15 ?        : True
 
 === Resultados para n = 10000 ===
   Sem eliminação de outliers (Dados Brutos):
     Elementos mantidos : 100 / 100
-    Média              : 2.413e-07 s
-    Desvio Padrão      : 6.435e-09 s
-    CV                 : 0.0267
+    Média              : 5.107e-08 s
+    Desvio Padrão      : 2.172e-09 s
+    CV                 : 0.0425
     CV < 0.15 ?        : True
 
 === Resultados para n = 100000 ===
   Sem eliminação de outliers (Dados Brutos):
     Elementos mantidos : 100 / 100
-    Média              : 2.276e-07 s
-    Desvio Padrão      : 2.527e-08 s
-    CV                 : 0.1110
+    Média              : 5.191e-08 s
+    Desvio Padrão      : 5.056e-10 s
+    CV                 : 0.0097
     CV < 0.15 ?        : True
 

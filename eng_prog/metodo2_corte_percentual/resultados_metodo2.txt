@@ -1,49 +1,62 @@
 ========================================
-  RELATÓRIO DE RESULTADOS: MÉTODO 2 (CORTE PERCENTUAL)
+  METADADOS E CONDIÇÕES DO EXPERIMENTO  
+========================================
+  Processador          : 12th Gen Intel(R) Core(TM) i5-1235U
+  Núcleos / Threads    : 12
+  Memória RAM          : 16 GB
+  Sistema Operacional  : Ubuntu 24.04.4 LTS (Linux 7.0.0-29-generic)
+  Versão do Python     : 3.12.12
+  Fonte de Energia     : Conectado à Tomada (AC)
+  Perfil de Energia    : Performance (Desempenho)
+  Aplicações de Fundo  : Fechadas (Ambiente Limpo)
+========================================
+
+========================================
+  RELATÓRIO DE RESULTADOS ATRIBUIÇÃO: MÉTODO 2 (CORTE PERCENTUAL)
 ========================================
 
 === Resultados para n = 1000 ===
   Filtro cortando 2% do início e final:
     Elementos mantidos : 96 / 100
-    Média              : 2.437e-07 s
-    Desvio Padrão      : 1.118e-08 s
-    CV                 : 0.0459
+    Média              : 5.027e-08 s
+    Desvio Padrão      : 4.144e-09 s
+    CV                 : 0.0824
     CV < 0.15 ?        : True
 
   Filtro cortando 5% do início e final:
     Elementos mantidos : 90 / 100
-    Média              : 2.430e-07 s
-    Desvio Padrão      : 9.453e-09 s
-    CV                 : 0.0389
+    Média              : 5.047e-08 s
+    Desvio Padrão      : 3.393e-09 s
+    CV                 : 0.0672
     CV < 0.15 ?        : True
 
 === Resultados para n = 10000 ===
   Filtro cortando 2% do início e final:
     Elementos mantidos : 96 / 100
-    Média              : 2.409e-07 s
-    Desvio Padrão      : 5.344e-09 s
-    CV                 : 0.0222
+    Média              : 5.093e-08 s
+    Desvio Padrão      : 1.411e-09 s
+    CV                 : 0.0277
     CV < 0.15 ?        : True
 
   Filtro cortando 5% do início e final:
     Elementos mantidos : 90 / 100
-    Média              : 2.405e-07 s
-    Desvio Padrão      : 4.006e-09 s
-    CV                 : 0.0167
+    Média              : 5.084e-08 s
+    Desvio Padrão      : 1.019e-09 s
+    CV                 : 0.0200
     CV < 0.15 ?        : True
 
 === Resultados para n = 100000 ===
   Filtro cortando 2% do início e final:
     Elementos mantidos : 96 / 100
-    Média              : 2.287e-07 s
-    Desvio Padrão      : 2.296e-08 s
-    CV                 : 0.1004
+    Média              : 5.189e-08 s
+    Desvio Padrão      : 4.423e-10 s
+    CV                 : 0.0085
     CV < 0.15 ?        : True
 
   Filtro cortando 5% do início e final:
     Elementos mantidos : 90 / 100
-    Média              : 2.303e-07 s
-    Desvio Padrão      : 1.952e-08 s
-    CV                 : 0.0848
+    Média              : 5.188e-08 s
+    Desvio Padrão      : 3.970e-10 s
+    CV                 : 0.0077
     CV < 0.15 ?        : True
 
