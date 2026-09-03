@@ -1,8 +1,8 @@
 import os
 import sys
 from utils import obter_metadados_sistema
-from experiment import run_assignment_experiment, run_operation_experiment
-from reporting import gerar_relatorios_atribuicao, gerar_relatorios_operacao
+from experiment import run_assignment_experiment, run_operation_experiment, run_comparison_experiment
+from reporting import gerar_relatorios_atribuicao, gerar_relatorios_operacao, gerar_relatorios_comparacao
 
 def main():
     print("=========================================")
@@ -11,10 +11,11 @@ def main():
     print("Escolha o experimento a ser executado:")
     print("  1 - Atribuição (tau_a)")
     print("  2 - Operação (tau_o)")
-    print("  3 - Ambos")
-    exp_escolha = input("Digite o número (1/2/3) [padrão: 3]: ").strip()
+    print("  3 - Comparação (tau_c): variável vs constante")
+    print("  4 - Todos")
+    exp_escolha = input("Digite o número (1/2/3/4) [padrão: 4]: ").strip()
     if not exp_escolha:
-        exp_escolha = '3'
+        exp_escolha = '4'
         
     print("\nEscolha o método de filtragem de outliers:")
     print("  1 - Sem filtragem (Dados Brutos)")
@@ -56,17 +57,22 @@ def main():
     metadados_hdr = obter_metadados_sistema()
     
     TAU_A = None
-    if exp_escolha in ['1', '3']:
+    if exp_escolha in ['1', '4']:
         TAU_A = run_assignment_experiment(lista_n, R)
         gerar_relatorios_atribuicao(TAU_A, lista_n, pasta_base, filtro_escolha, metadados_hdr, x_escolhas, pct_escolhas)
         
-    if exp_escolha in ['2', '3']:
-        if exp_escolha == '2':
-            # Precisa rodar atribuição para subtrair a baseline, mas não precisa gerar relatório
-            TAU_A = run_assignment_experiment(lista_n, R)
-            
+    if exp_escolha in ['2', '3', '4'] and TAU_A is None:
+        # Precisa rodar atribuição para subtrair a baseline, mas não precisa gerar relatório
+        TAU_A = run_assignment_experiment(lista_n, R)
+        
+    if exp_escolha in ['2', '4']:
         TAU_O_BRUTO, TAU_O_ISOLADO = run_operation_experiment(lista_n, R, TAU_A)
         gerar_relatorios_operacao(TAU_O_BRUTO, TAU_O_ISOLADO, lista_n, pasta_base, filtro_escolha, metadados_hdr, x_escolhas, pct_escolhas)
+        
+    if exp_escolha in ['3', '4']:
+        TAU_C_VAR_BRUTO, TAU_C_VAR_ISOLADO, TAU_C_CONST_BRUTO, TAU_C_CONST_ISOLADO = run_comparison_experiment(lista_n, R, TAU_A)
+        gerar_relatorios_comparacao(TAU_C_VAR_BRUTO, TAU_C_VAR_ISOLADO, lista_n, pasta_base, filtro_escolha, metadados_hdr, x_escolhas, pct_escolhas, rotulo="a < b", prefixo="comparacao_variavel")
+        gerar_relatorios_comparacao(TAU_C_CONST_BRUTO, TAU_C_CONST_ISOLADO, lista_n, pasta_base, filtro_escolha, metadados_hdr, x_escolhas, pct_escolhas, rotulo="a < CONSTANTE", prefixo="comparacao_constante")
         
     print(f"\nExecução concluída com sucesso! Resultados salvos na pasta '{pasta_base}'.")
 
