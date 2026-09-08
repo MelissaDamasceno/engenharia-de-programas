@@ -50,3 +50,63 @@ def run_operation_experiment(lista_n, R, TAU_A=None):
         TAU_O_ISOLADO.append(tt_op_isolado)
         
     return TAU_O_BRUTO, TAU_O_ISOLADO
+
+def run_comparison_experiment(lista_n, R, TAU_A=None):
+    """Executa a medição de tempos de comparação (if a < b / if a < CONSTANTE).
+
+    A comparação é sempre verdadeira, e o `toc = time()` fica dentro do `if`,
+    de modo que o tempo medido é (comparação + atribuição).
+    Se TAU_A for fornecido, a baseline de atribuição será subtraída.
+    """
+    a = 1
+    b = 2
+    CONSTANTE = 2
+
+    TAU_C_VAR_BRUTO = []      # Comparação com variável + Atribuição (if a < b)
+    TAU_C_VAR_ISOLADO = []    # Comparação com variável isolada
+    TAU_C_CONST_BRUTO = []    # Comparação com constante + Atribuição (if a < 2)
+    TAU_C_CONST_ISOLADO = []  # Comparação com constante isolada
+
+    print("Coletando medições de tempo para Comparação (if a < b / if a < CONSTANTE)...")
+    for idx_n, n in enumerate(lista_n):
+        tt_var_bruto = []
+        tt_var_isolado = []
+        tt_const_bruto = []
+        tt_const_isolado = []
+        for r in range(R):
+            # Comparação entre variáveis (a < b)
+            t = 0
+            for i in range(n):
+                tic = time()
+                if a < b:
+                    toc = time()
+                t += toc - tic
+            tempo_medio_var = t / n
+
+            # Comparação entre variável e constante (a < 2)
+            t = 0
+            for i in range(n):
+                tic = time()
+                if a < CONSTANTE:
+                    toc = time()
+                t += toc - tic
+            tempo_medio_const = t / n
+
+            tt_var_bruto.append(tempo_medio_var)
+            tt_const_bruto.append(tempo_medio_const)
+
+            if TAU_A is not None:
+                # Subtrai a baseline de atribuição da mesma repetição r
+                tempo_atrib = TAU_A[idx_n][r]
+                tt_var_isolado.append(max(0.0, tempo_medio_var - tempo_atrib))
+                tt_const_isolado.append(max(0.0, tempo_medio_const - tempo_atrib))
+            else:
+                tt_var_isolado.append(tempo_medio_var)
+                tt_const_isolado.append(tempo_medio_const)
+
+        TAU_C_VAR_BRUTO.append(tt_var_bruto)
+        TAU_C_VAR_ISOLADO.append(tt_var_isolado)
+        TAU_C_CONST_BRUTO.append(tt_const_bruto)
+        TAU_C_CONST_ISOLADO.append(tt_const_isolado)
+
+    return TAU_C_VAR_BRUTO, TAU_C_VAR_ISOLADO, TAU_C_CONST_BRUTO, TAU_C_CONST_ISOLADO

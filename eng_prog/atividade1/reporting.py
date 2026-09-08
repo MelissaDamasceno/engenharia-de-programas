@@ -290,3 +290,149 @@ def gerar_relatorios_operacao(TAU_O_BRUTO, TAU_O_ISOLADO, lista_n, pasta_base, f
                 
         with open(os.path.join(pasta_out, "resultados_operacao_metodo2.txt"), "w", encoding="utf-8") as f:
             f.writelines(txt_lines)
+
+def gerar_relatorios_comparacao(TAU_C_BRUTO, TAU_C_ISOLADO, lista_n, pasta_base, filtro_escolhido, metadados_hdr, x_escolhas=[2, 3], pct_escolhas=[0.02, 0.05], rotulo="a < b", prefixo="comparacao_var"):
+    """
+    Gera relatórios de texto e gráficos para a medição de Comparação (TAU_C).
+    rotulo: descrição da comparação medida (ex.: "a < b" ou "a < CONSTANTE").
+    prefixo: prefixo das pastas de saída, para separar variável e constante.
+    """
+    if filtro_escolhido in ['1', '4']:
+        pasta_out = os.path.join(pasta_base, f"{prefixo}_sem_filtragem")
+        os.makedirs(pasta_out, exist_ok=True)
+        txt_lines = metadados_hdr + [
+            "========================================\n",
+            f"  RELATÓRIO DE RESULTADOS COMPARAÇÃO ({rotulo}): SEM FILTRAGEM (DADOS BRUTOS)\n",
+            "========================================\n\n"
+        ]
+        for n, tt_bruto, tt_iso in zip(lista_n, TAU_C_BRUTO, TAU_C_ISOLADO):
+            tt_bruto = np.array(tt_bruto)
+            tt_iso = np.array(tt_iso)
+            txt_lines.append(f"=== Resultados Comparação para n = {n} ===\n")
+
+            media_iso = np.mean(tt_iso)
+            desvio_iso = np.std(tt_iso)
+            cv_iso = desvio_iso / media_iso if media_iso > 0 else 0
+            media_bruto = np.mean(tt_bruto)
+            desvio_bruto = np.std(tt_bruto)
+
+            relatorio = (
+                f"  Sem eliminação de outliers (Dados Brutos):\n"
+                f"    Elementos mantidos        : {len(tt_iso)} / {len(tt_iso)}\n"
+                f"    Tempo Total (if {rotulo})   : {media_bruto:.3e} s (std: {desvio_bruto:.3e} s)\n"
+                f"    Primitiva tau_c Isolada   : {media_iso:.3e} s\n"
+                f"    Desvio Padrão (tau_c)     : {desvio_iso:.3e} s\n"
+                f"    CV (tau_c)                : {cv_iso:.4f}\n"
+                f"    CV < 0.15 ?               : {cv_iso < 0.15}\n\n"
+            )
+            txt_lines.append(relatorio)
+
+            plt.figure()
+            plt.hist(tt_iso, bins=50, color='goldenrod', edgecolor='black')
+            plt.xlabel("Tempo (s)")
+            plt.ylabel("Frequência")
+            plt.title(f"Histograma Comparação tau_c ({rotulo}, Sem Filtragem) - n = {n}")
+            plt.savefig(os.path.join(pasta_out, f"hist_n{n}.png"))
+            plt.close()
+
+            plt.figure()
+            plt.plot(tt_iso, marker='o', linestyle='-', color='darkgoldenrod', markersize=3)
+            plt.xlabel("Repetição")
+            plt.ylabel("Tempo (s)")
+            plt.title(f"Curva de Tempos Comparação tau_c ({rotulo}, Sem Filtragem) - n = {n}")
+            plt.savefig(os.path.join(pasta_out, f"curva_n{n}.png"))
+            plt.close()
+
+        with open(os.path.join(pasta_out, f"resultados_{prefixo}_sem_filtragem.txt"), "w", encoding="utf-8") as f:
+            f.writelines(txt_lines)
+
+    if filtro_escolhido in ['2', '4']:
+        pasta_out = os.path.join(pasta_base, f"{prefixo}_metodo1_desvio_padrao")
+        os.makedirs(pasta_out, exist_ok=True)
+        txt_lines = metadados_hdr + [
+            "========================================\n",
+            f"  RELATÓRIO DE RESULTADOS COMPARAÇÃO ({rotulo}): MÉTODO 1 (DESVIO PADRÃO)\n",
+            "========================================\n\n"
+        ]
+        for n, tt_iso in zip(lista_n, TAU_C_ISOLADO):
+            tt_iso = np.array(tt_iso)
+            txt_lines.append(f"=== Resultados Comparação para n = {n} ===\n")
+            for x in x_escolhas:
+                tt_filtrado = eliminar_outliers_desvio(tt_iso, x=x)
+                media = np.mean(tt_filtrado)
+                desvio = np.std(tt_filtrado)
+                cv = desvio / media if media > 0 else 0
+                relatorio = (
+                    f"  Filtro com x = {x} desvios padrão (Regra {x}σ):\n"
+                    f"    Elementos mantidos : {len(tt_filtrado)} / {len(tt_iso)}\n"
+                    f"    Média (tau_c)      : {media:.3e} s\n"
+                    f"    Desvio Padrão      : {desvio:.3e} s\n"
+                    f"    CV                 : {cv:.4f}\n"
+                    f"    CV < 0.15 ?        : {cv < 0.15}\n\n"
+                )
+                txt_lines.append(relatorio)
+
+                plt.figure()
+                plt.hist(tt_filtrado, bins=50, color='sandybrown', edgecolor='black')
+                plt.xlabel("Tempo (s)")
+                plt.ylabel("Frequência")
+                plt.title(f"Histograma Comparação tau_c ({rotulo}, Método 1: {x}σ) - n = {n}")
+                plt.savefig(os.path.join(pasta_out, f"hist_n{n}_{x}sigma.png"))
+                plt.close()
+
+                plt.figure()
+                plt.plot(tt_filtrado, marker='o', linestyle='-', color='sienna', markersize=3)
+                plt.xlabel("Repetição (Filtrada)")
+                plt.ylabel("Tempo (s)")
+                plt.title(f"Curva de Tempos Comparação tau_c ({rotulo}, Método 1: {x}σ) - n = {n}")
+                plt.savefig(os.path.join(pasta_out, f"curva_n{n}_{x}sigma.png"))
+                plt.close()
+
+        with open(os.path.join(pasta_out, f"resultados_{prefixo}_metodo1.txt"), "w", encoding="utf-8") as f:
+            f.writelines(txt_lines)
+
+    if filtro_escolhido in ['3', '4']:
+        pasta_out = os.path.join(pasta_base, f"{prefixo}_metodo2_corte_percentual")
+        os.makedirs(pasta_out, exist_ok=True)
+        txt_lines = metadados_hdr + [
+            "========================================\n",
+            f"  RELATÓRIO DE RESULTADOS COMPARAÇÃO ({rotulo}): MÉTODO 2 (CORTE PERCENTUAL)\n",
+            "========================================\n\n"
+        ]
+        for n, tt_iso in zip(lista_n, TAU_C_ISOLADO):
+            tt_iso = np.array(tt_iso)
+            txt_lines.append(f"=== Resultados Comparação para n = {n} ===\n")
+            for pct in pct_escolhas:
+                pct_int = int(pct * 100)
+                tt_filtrado = eliminar_outliers_corte_percentual(tt_iso, pct=pct)
+                media = np.mean(tt_filtrado)
+                desvio = np.std(tt_filtrado)
+                cv = desvio / media if media > 0 else 0
+                relatorio = (
+                    f"  Filtro cortando {pct_int}% do início e final:\n"
+                    f"    Elementos mantidos : {len(tt_filtrado)} / {len(tt_iso)}\n"
+                    f"    Média (tau_c)      : {media:.3e} s\n"
+                    f"    Desvio Padrão      : {desvio:.3e} s\n"
+                    f"    CV                 : {cv:.4f}\n"
+                    f"    CV < 0.15 ?        : {cv < 0.15}\n\n"
+                )
+                txt_lines.append(relatorio)
+
+                plt.figure()
+                plt.hist(tt_filtrado, bins=50, color='plum', edgecolor='black')
+                plt.xlabel("Tempo (s)")
+                plt.ylabel("Frequência")
+                plt.title(f"Histograma Comparação tau_c ({rotulo}, Método 2: {pct_int}%) - n = {n}")
+                plt.savefig(os.path.join(pasta_out, f"hist_n{n}_{pct_int}pct.png"))
+                plt.close()
+
+                plt.figure()
+                plt.plot(tt_filtrado, marker='o', linestyle='-', color='darkmagenta', markersize=3)
+                plt.xlabel("Repetição (Filtrada)")
+                plt.ylabel("Tempo (s)")
+                plt.title(f"Curva de Tempos Comparação tau_c ({rotulo}, Método 2: {pct_int}%) - n = {n}")
+                plt.savefig(os.path.join(pasta_out, f"curva_n{n}_{pct_int}pct.png"))
+                plt.close()
+
+        with open(os.path.join(pasta_out, f"resultados_{prefixo}_metodo2.txt"), "w", encoding="utf-8") as f:
+            f.writelines(txt_lines)
