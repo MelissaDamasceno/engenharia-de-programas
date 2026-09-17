@@ -75,6 +75,20 @@ for px in range(n_pixels):
 
     arrange_time = time.time() - tic        
 print(f"\n\nTamanho cluster 1: {len(CLUSTER[0])}\nTamanho cluster 2: {len(CLUSTER[1])}")
-print(f"Tempo de Agrupamento: {arrange_time}")
+print(f"Tempo de Agrupamento: {arrange_time}\n\n")
 
 ###### FIM DO AGRUPAMENTO ######
+
+########### CENTROIDE ##########
+tic = time.time()
+new_centroid = []
+for k in range(K):
+    L = len(CLUSTER[k])
+    S = np.zeros(3)
+    for px in CLUSTER[k]:
+        S += [faixa[0][px], faixa[1][px], faixa[2][px]]    
+    new_centroid.append([int(S[0])/L, int(S[1])/L, int(S[2])/L])
+    print(f"Novo centroide {k}: {new_centroid[-1]}")
+
+centroid_time = time.time() - tic
+print(f"Tempo de Novo Centroide: {centroid_time}")
