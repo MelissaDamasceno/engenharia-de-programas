@@ -1,3 +1,5 @@
+import time
+
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2
@@ -59,9 +61,21 @@ for k in range(K):
 #### FIM DA INICIALIZAÇÃO ####
 
 ####### AGRUPAMENTO #########
+tic = time.time()
+CLUSTER = [[] for _ in range(K)]
 
-clusters = np.array((k, n_pixels), dtype='int')
-n_px_clusters = []
+for px in range(n_pixels):
+    v = [faixa[0][px], faixa[1][px], faixa[2][px]]
+    d = []
+    for k in range(K):
+        pxs_dist = np.linalg.norm(np.array(v) - np.array(centroid[k]))
+        d.append(pxs_dist)
+    cluster = np.argmin(d)
+    CLUSTER[cluster].append(px)
+        
+print(f"Tamanho cluster 1: {len(CLUSTER[0])}, Tamanho cluster 2: {len(CLUSTER[1])}")
+print(f"Tempo: {time.time() - tic}")
 
-for f in faixa:
-    
+###### FIM DO AGRUPAMENTO ######
+
+
