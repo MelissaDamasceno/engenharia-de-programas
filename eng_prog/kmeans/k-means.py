@@ -78,4 +78,14 @@ print(f"Tempo: {time.time() - tic}")
 
 ###### FIM DO AGRUPAMENTO ######
 
-
+########### CENTROIDE ##########
+tic = time.time()
+new_centroid = []
+for k in range(K):
+    L = len(CLUSTER[k])
+    S = np.zeros(3)
+    for px in CLUSTER[k]:
+        S += [faixa[0][px], faixa[1][px], faixa[2][px]]    
+    new_centroid.append([int(S[0])/L, int(S[1])/L, int(S[2])/L])
+print(f"Novo centroide: {new_centroid}")
+print(f"Tempo: {time.time() - tic}")
