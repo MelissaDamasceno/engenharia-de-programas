@@ -1,11 +1,20 @@
 import os
 import sys
+
+# Configurar diretório seguro para cache do matplotlib
+os.environ['MPLCONFIGDIR'] = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.mplconfig')
+
 from utils import obter_metadados_sistema
 from experiment import run_assignment_experiment, run_operation_experiment, run_comparison_experiment
 from reporting import gerar_relatorios_atribuicao, gerar_relatorios_operacao, gerar_relatorios_comparacao
 from validacao_setup import main as run_validacao_setup
+from calibracao_foca import main as run_calibracao_foca
 
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] in ['--foca', '--calibracao', '-f', '-c']:
+        run_calibracao_foca()
+        return
+
     if len(sys.argv) > 1 and sys.argv[1] in ['--validacao', '--rta', '-v']:
         run_validacao_setup()
         return
@@ -18,10 +27,15 @@ def main():
     print("  1 - Atribuição (tau_a)")
     print("  2 - Operação (tau_o)")
     print("  3 - Comparação (tau_c): variável vs constante")
-    print("  4 - Todos os experimentos F.O.C.A. (1, 2 e 3)")
-    exp_escolha = input("Digite o número (0/1/2/3/4) [padrão: 0]: ").strip()
+    print("  4 - Experimentos F.O.C.A. Básicos (1, 2 e 3)")
+    print("  5 - Calibração Completa F.O.C.A. Crédito 1 (25 Primitivas + Painéis + LaTeX/Overleaf)")
+    exp_escolha = input("Digite o número (0/1/2/3/4/5) [padrão: 5]: ").strip()
     if not exp_escolha:
-        exp_escolha = '0'
+        exp_escolha = '5'
+
+    if exp_escolha == '5':
+        run_calibracao_foca()
+        return
 
     if exp_escolha == '0':
         run_validacao_setup()
