@@ -7,7 +7,7 @@ import cv2
 
 
 img = cv2.imread('massa.jpg')
-img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # Fromato jpg enxerga em BGR enquanto npg, RGB
+img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # Formato jpg enxerga em BGR enquanto png, RGB
 
 n, m, c = img.shape
 print(f'Número de Linhas: {n}\nNúmero de colunas: {m}\nNúmero de Cores: {c}')
