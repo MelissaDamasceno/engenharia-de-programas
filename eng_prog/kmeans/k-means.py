@@ -1,3 +1,4 @@
+from os import sched_get_priority_max
 from datetime import MAXYEAR
 import time
 
@@ -9,8 +10,8 @@ import cv2
 img = cv2.imread('massa.jpg')
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # Formato jpg enxerga em BGR enquanto png, RGB
 
-n, m, c = img.shape
-print(f'Número de Linhas: {n}\nNúmero de colunas: {m}\nNúmero de Cores: {c}')
+n_linhas, n_colunas, c = img.shape
+print(f'Número de Linhas: {n_linhas}\nNúmero de colunas: {n_colunas}\nNúmero de Cores: {c}')
 
 # PRINTA DE IMAGEM ORIGINAL
 # plt.imshow(img)
@@ -64,9 +65,9 @@ print(f"Tempo de Inicialização: {init_time}")
 MAX_ITER = 200
 iter = 0
 
-CLUSTER = [[] for _ in range(K)]
 
 while True:
+    CLUSTER = [[] for _ in range(K)]
 
     print(f'ITERAÇÃO DE NÚMERO: {iter}')
 
@@ -127,3 +128,17 @@ while True:
     else:
         print(f'Consegue em {iter} iterações')
         break
+
+
+color = [[255, 0, 0], [0, 255, 0], [0, 0, 255]]
+
+segmented = np.empty((n_linhas, n_colunas, 3), dtype=np.uint8)
+
+for k in range(K):
+    for px in CLUSTER[k]:
+        i = px // n_colunas
+        j = px % n_colunas
+        segmented[i, j] = color[k]
+
+plt.imshow(segmented)
+plt.show()
