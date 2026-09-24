@@ -1,3 +1,4 @@
+from datetime import MAXYEAR
 import time
 
 import matplotlib.pyplot as plt
@@ -14,7 +15,6 @@ print(f'Número de Linhas: {n}\nNúmero de colunas: {m}\nNúmero de Cores: {c}')
 # PRINTA DE IMAGEM ORIGINAL
 # plt.imshow(img)
 # plt.show()
-
 
 ####### INICIALIZAÇÃO #######
 tic = time.time()
@@ -60,35 +60,70 @@ print(f"Tempo de Inicialização: {init_time}")
 
 #### FIM DA INICIALIZAÇÃO ####
 
-####### AGRUPAMENTO #########
-tic = time.time()
+
+MAX_ITER = 200
+iter = 0
+
 CLUSTER = [[] for _ in range(K)]
 
-for px in range(n_pixels):
-    v = [faixa[0][px], faixa[1][px], faixa[2][px]]
-    d = []
+while True:
+
+    print(f'ITERAÇÃO DE NÚMERO: {iter}')
+
+    ####### AGRUPAMENTO #########
+    tic = time.time()
+
+    for px in range(n_pixels):
+        v = [faixa[0][px], faixa[1][px], faixa[2][px]]
+        d = []
+        for k in range(K):
+            pxs_dist = np.linalg.norm(np.array(v) - np.array(centroid[k]))
+            d.append(pxs_dist)
+        cluster = np.argmin(d)
+        CLUSTER[cluster].append(px)
+
+    arrange_time = time.time() - tic      
+    print(f"\n\nTamanho cluster 1: {len(CLUSTER[0])}\nTamanho cluster 2: {len(CLUSTER[1])}")
+    print(f"Tempo de Agrupamento: {arrange_time}\n\n")
+
+    ###### FIM DO AGRUPAMENTO ######
+
+    ########### CENTROIDE ##########
+    tic = time.time()
+    new_centroid = []
     for k in range(K):
-        pxs_dist = np.linalg.norm(np.array(v) - np.array(centroid[k]))
-        d.append(pxs_dist)
-    cluster = np.argmin(d)
-    CLUSTER[cluster].append(px)
+        L = len(CLUSTER[k])
+        S = np.zeros(3)
+        for px in CLUSTER[k]:
+            S += [faixa[0][px], faixa[1][px], faixa[2][px]]    
+        new_centroid.append([int(S[0])/L, int(S[1])/L, int(S[2])/L])
+        print(f"Novo centroide {k}: {new_centroid[-1]}")
 
-    arrange_time = time.time() - tic        
-print(f"\n\nTamanho cluster 1: {len(CLUSTER[0])}\nTamanho cluster 2: {len(CLUSTER[1])}")
-print(f"Tempo de Agrupamento: {arrange_time}\n\n")
+    centroid_time = time.time() - tic
+    print(f"Tempo de Novo Centroide: {centroid_time}")
 
-###### FIM DO AGRUPAMENTO ######
+    ##### FIM DO CENTROIDE #######
 
-########### CENTROIDE ##########
-tic = time.time()
-new_centroid = []
-for k in range(K):
-    L = len(CLUSTER[k])
-    S = np.zeros(3)
-    for px in CLUSTER[k]:
-        S += [faixa[0][px], faixa[1][px], faixa[2][px]]    
-    new_centroid.append([int(S[0])/L, int(S[1])/L, int(S[2])/L])
-    print(f"Novo centroide {k}: {new_centroid[-1]}")
+    ######## VERIFICAÇÃO #########
 
-centroid_time = time.time() - tic
-print(f"Tempo de Novo Centroide: {centroid_time}")
+    conv = True 
+
+    for k in range(K):
+        for c in range(3):
+            if int(centroid[k][c]) != int(new_centroid[k][c]):
+                conv = False
+                break
+
+    ####### FIM DA VERIFICAÇÃO #########
+
+    if not conv:
+        centroid = new_centroid
+        iter += 1
+
+        if iter >= MAX_ITER:
+            print(f'Não convergiu em {MAX_ITER} iterações')
+            break
+
+    else:
+        print(f'Consegue em {iter} iterações')
+        break
