@@ -7,7 +7,7 @@ import numpy as np
 import cv2
 
 
-img = cv2.imread('massa.jpg')
+img = cv2.imread('imagem_original.jpg')
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # Formato jpg enxerga em BGR enquanto png, RGB
 
 n_linhas, n_colunas, c = img.shape
@@ -130,7 +130,7 @@ while True:
         break
 
 
-color = [[255, 0, 0], [0, 255, 0], [0, 0, 255]]
+color = [[255, 255, 255], [0, 0, 0], [0, 0, 255]]
 
 segmented = np.empty((n_linhas, n_colunas, 3), dtype=np.uint8)
 
