@@ -21,7 +21,7 @@ print(f'Número de Linhas: {n_linhas}\nNúmero de colunas: {n_colunas}\nNúmero 
 init = time.time()
 tic = time.time()
 
-K = 3
+K = 6
 faixa = []
 plano = []
 centroid = []
@@ -132,7 +132,7 @@ while True:
 
 
 print(f'Tempo total:{time.time() - init}')
-color = [[255, 0, 0], [0, 255, 0], [0, 0, 255]]
+color = [[255, 0, 0], [0, 255, 0], [0, 0, 255], [255, 255, 0], [255, 0, 255], [0, 255, 255]]
 
 segmented = np.empty((n_linhas, n_colunas, 3), dtype=np.uint8)
 
