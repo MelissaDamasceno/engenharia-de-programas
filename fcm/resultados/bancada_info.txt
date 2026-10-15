@@ -1,0 +1,6 @@
+inicio: 2026-10-15T13:57:08-03:00
+energia: online=1 governor=powersave
+Model name:                              13th Gen Intel(R) Core(TM) i7-13620H
+Python 3.10.12
+fim soa: 2026-10-15T14:30:35-03:00
+fim puro: 2026-10-15T15:05:06-03:00
