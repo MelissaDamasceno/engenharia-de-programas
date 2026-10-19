@@ -51,7 +51,6 @@ if os.path.exists(img_dir):
 
 # Ordena a lista de dicionários pelo valor de 'n' crescente
 arquivos_n = sorted(arquivos_n, key=lambda x: x['n'])
-arquivos_n = arquivos_n[:1]  # roda apenas a menor imagem
 
 print(f"{len(arquivos_n)} imagens ordenadas prontas para processamento.")
 
@@ -74,14 +73,17 @@ for item in arquivos_n:
     # Executa todas as repetições e Ks para esta imagem
     for k in k_list:
         for r in range(R):
+            # Semente fixa: toda repetição parte dos mesmos centroides e faz as
+            # mesmas iterações, então o CV mede só o ruído da máquina
+            np.random.seed(0)
             t0 = time.perf_counter()
             seg_imagem = kmeans.kmeans(img_array, k)  # A matriz é passada aqui
             t1 = time.perf_counter()
             print(f"  k={k} repetição {r + 1}/{R}: {t1 - t0:.2f}s", flush=True)
 
-            if r == 0:
-                plt.imshow(seg_imagem)
-                plt.show()
+            # if r == 0:
+            #     plt.imshow(seg_imagem)
+            #     plt.show()
             
             resultados.append({
                 'arquivo': nome_arquivo,
@@ -215,7 +217,7 @@ if not df_raw.empty:
     
     plt.tight_layout()
     plt.savefig('relatorio_complexidade.png', dpi=300)
-    plt.show()
+    # plt.show()
     
     print("\nPipeline concluído. Gráficos gerados e salvos como 'relatorio_complexidade.png'.")
 	
