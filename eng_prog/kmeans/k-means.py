@@ -59,10 +59,12 @@ def kmeans(img, K):
 
     MAX_ITER = 200
     iter = 0
+    passadas = 0  # passadas completas por todos os pixels (inclui a que confirma a convergência)
 
 
     while True:
         CLUSTER = [[] for _ in range(K)]
+        passadas += 1
 
 
         ####### AGRUPAMENTO #########
@@ -134,6 +136,7 @@ def kmeans(img, K):
     # plt.imshow(segmented)
     # plt.show()
 
+    kmeans.passadas = passadas  # o experimentador lê isto para relacionar tempo e iterações
     return segmented
 
 if __name__ == '__main__':
