@@ -1,0 +1,37 @@
+--- Resumo de Estabilidade ---
+       n  k  tempo_medio  ...  contagem_valida        CV  estavel_CV_menor_15
+0   2444  2     0.121528  ...               26  0.064301                 True
+1   2444  3     0.192617  ...               26  0.046755                 True
+2   2444  4     0.269394  ...               26  0.029798                 True
+3   4860  2     0.247506  ...               26  0.014156                 True
+4   4860  3     0.385975  ...               26  0.017441                 True
+5   4860  4     0.549815  ...               26  0.013313                 True
+6   7360  2     0.389492  ...               26  0.017605                 True
+7   7360  3     0.603827  ...               26  0.013039                 True
+8   7360  4     0.856328  ...               26  0.009354                 True
+9   9780  2     0.524548  ...               26  0.031866                 True
+10  9780  3     0.797907  ...               26  0.016480                 True
+11  9780  4     1.090661  ...               26  0.023287                 True
+
+[12 rows x 7 columns]
+
+============================================================
+   MODELO EMPÍRICO AJUSTADO: T(n, K)
+============================================================
+Formulação Geral:
+  T(n, K) = α·(n·K) + β·n + γ·K + δ
+
+Parâmetros Identificados:
+  α (alpha) =   2.896323e-05 s/(pixel·cluster)
+  β (beta)  =  -3.163146e-06 s/pixel
+  γ (gamma) =   8.396307e-03 s/cluster
+  δ (delta) =  -3.437513e-02 s (overhead base)
+------------------------------------------------------------
+Equação Parametrizada:
+  T(n, K) = (2.8963e-05)·(n·K) + (-3.1631e-06)·n + (8.3963e-03)·K + (-3.4375e-02)
+Aderência Estatística (R²): 0.9986
+============================================================
+
+
+Pipeline concluído. Gráficos gerados e salvos como 'relatorio_complexidade.png'.
+Tabela de avaliação exportada com sucesso para: resultados_foca_aluno.csv

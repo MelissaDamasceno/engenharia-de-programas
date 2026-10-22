@@ -1,5 +1,8 @@
 import os
+import io
 import time
+import random
+import contextlib
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -7,25 +10,40 @@ from PIL import Image
 from scipy.optimize import curve_fit
 import importlib.util
 
-# Carrega kmeans/k-means.py (o hífen impede um 'import' normal)
+# Carrega o FCM Puro (código base da disciplina, sem alterações) de ../fcm/
 _spec = importlib.util.spec_from_file_location(
-    "kmeans", os.path.join(os.path.dirname(os.path.abspath(__file__)), "kmeans", "k-means.py"))
-kmeans = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(kmeans)
+    "fcm_puro", os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "fcm", "FCM_PURO_v3.py"))
+fcm = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(fcm)
+
+# epsilon = 0 nunca é atingido: toda execução faz exatamente MAX_ITER iterações,
+# então o número de iterações não muda com a foto nem com K (igual à bancada do fcm/)
+EPSILON = 0.0
+MAX_ITER = 20
+
+# Mesma semente inicial em todos os experimentos (FCM e k-means): é fixada
+# antes de CADA execução, nos dois geradores (o FCM usa o 'random' do Python,
+# o k-means usa o do NumPy), então toda execução parte do mesmo estado
+SEMENTE = 42
+
+
+def fixa_semente():
+    random.seed(SEMENTE)
+    np.random.seed(SEMENTE)
 
 # ==========================================
-# 1. Função do Aluno (Mock)
+# 1. Função do Aluno
 # ==========================================
-def segmenta_imagem(imagem_array, k):
+def segmenta_imagem(imagem, k):
     """
-    Substitua pelo script real de segmentação do aluno.
-    Recebe o array da imagem já em memória e o número de clusters K.
+    Executa o FCM Puro sobre a imagem (PIL, RGB) já em memória.
+    Retorna a imagem segmentada.
     """
-    # Mock de processamento para testes (remova na versão final)
-    # Simula um tempo de execução proporcional a O(n*K)
-    n = imagem_array.shape[0] * imagem_array.shape[1]
-    time.sleep((n * k) * 1e-8)
-    pass
+    # O FCM imprime "-> Convergiu..."; o print é descartado para não poluir o terminal
+    with contextlib.redirect_stdout(io.StringIO()):
+        _, _, imagem_segmentada = fcm.fcm_processar_imagem(
+            img=imagem, K=k, m=2.0, max_iter=MAX_ITER, epsilon=EPSILON)
+    return imagem_segmentada
 
 # ==========================================
 # 2. Descoberta e Ordenação Ligeira (Sem estourar RAM)
@@ -68,18 +86,17 @@ for item in arquivos_n:
     
     # Carrega a imagem real para a RAM apenas no momento de usar
     with Image.open(filepath) as img:
-        img_array = np.array(img.convert('RGB'))
+        imagem = img.convert('RGB')
     
     # Executa todas as repetições e Ks para esta imagem
     for k in k_list:
         for r in range(R):
-            # Semente fixa: toda repetição parte dos mesmos centroides e faz as
-            # mesmas iterações, então o CV mede só o ruído da máquina
-            np.random.seed(0)
+            # Semente fixa: toda repetição parte da mesma U inicial
+            fixa_semente()
             t0 = time.perf_counter()
-            seg_imagem = kmeans.kmeans(img_array, k)  # A matriz é passada aqui
+            seg_imagem = segmenta_imagem(imagem, k)  # A imagem é passada aqui
             t1 = time.perf_counter()
-            print(f"  k={k} repetição {r + 1}/{R}: {t1 - t0:.2f}s", flush=True)
+            print(f"  k={k} repetição {r + 1}/{R}: {t1 - t0:.4f}s", flush=True)
 
             # if r == 0:
             #     plt.imshow(seg_imagem)
@@ -94,7 +111,7 @@ for item in arquivos_n:
             })
             
     # Libera a RAM explicitamente antes de carregar a próxima imagem
-    del img_array
+    del imagem
     print(f"Análise de {nome_arquivo} concluída. Memória liberada.")
 
 # Transforma os resultados em DataFrame
