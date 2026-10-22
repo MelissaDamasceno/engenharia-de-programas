@@ -15,47 +15,71 @@ from scipy.optimize import curve_fit
 import importlib.util
 
 # ==========================================
-# 0. Parâmetros da Bancada (Equipe 9 - Machado98, Missão 3 SoA)
+# 0. Parâmetros da Bancada (Equipe 9 - Machado98)
 # ==========================================
-# Uso:
-#   python experimentador_EP_2026.2.py --variante puro
-#   python experimentador_EP_2026.2.py --variante soa
+# Uso (da raiz do repositório, preso a um P-core para não migrar entre núcleos):
+#   taskset -c 4 .venv/bin/python experimentador/experimentador.py --algoritmo fcm_puro
+#   taskset -c 4 .venv/bin/python experimentador/experimentador.py --algoritmo kmeans --imagens escala_8pct
 PASTA = os.path.dirname(os.path.abspath(__file__))
-VARIANTES = {"puro": "FCM_PURO_v3.py", "soa": "fcm_soa.py"}
+RAIZ = os.path.dirname(PASTA)
+ALGORITMOS = {
+    "kmeans": os.path.join(RAIZ, "kmeans", "k-means.py"),
+    "fcm_puro": os.path.join(RAIZ, "fcm", "FCM_PURO_v3.py"),
+    "fcm_soa": os.path.join(RAIZ, "fcm", "fcm_soa.py"),
+}
+CONJUNTOS = ["escala_1x_4x", "credito2", "escala_8pct"]  # subpastas de imagens/
 
-parser = argparse.ArgumentParser(description="Bancada F.O.C.A. do FCM (Puro x SoA)")
-parser.add_argument("--variante", choices=VARIANTES.keys(), default="soa")
+parser = argparse.ArgumentParser(description="Bancada F.O.C.A.: mede T(n, K) de um algoritmo de segmentação")
+parser.add_argument("--algoritmo", choices=ALGORITMOS.keys(), default="fcm_puro")
+parser.add_argument("--imagens", choices=CONJUNTOS, default="escala_1x_4x")
 parser.add_argument("--repeticoes", type=int, default=30, help="R: repetições por (n, K)")
-# epsilon = 0 nunca é atingido: toda execução faz exatamente max_iter iterações.
-# Assim fotos e K diferentes não mudam o número de iterações e T(n, K) fica limpo.
+# Só no FCM: epsilon = 0 nunca é atingido, então toda execução faz exatamente max_iter
+# iterações. Assim fotos e K diferentes não mudam o número de iterações e T(n, K) fica limpo.
 parser.add_argument("--epsilon", type=float, default=0.0)
 parser.add_argument("--max-iter", type=int, default=20)
 parser.add_argument("--semente", type=int, default=42,
-                    help="Semente fixa antes de cada repetição (mesma inicialização de U)")
-parser.add_argument("--saida", default=os.path.join(PASTA, "resultados"))
+                    help="Semente fixada antes de CADA execução, em random e np.random")
+parser.add_argument("--sem-semente", action="store_true",
+                    help="Não fixa a semente (cada repetição parte de um estado aleatório)")
+parser.add_argument("--saida", help="Pasta dos resultados (padrão: experimentador/resultados/<algoritmo>_<imagens>)")
 args = parser.parse_args()
 
-pasta_saida = os.path.join(args.saida, args.variante)
+pasta_saida = args.saida or os.path.join(PASTA, "resultados", f"{args.algoritmo}_{args.imagens}")
 os.makedirs(pasta_saida, exist_ok=True)
 
-# Carrega a variante do FCM pelo caminho do arquivo
-_spec = importlib.util.spec_from_file_location(
-    "fcm_" + args.variante, os.path.join(PASTA, VARIANTES[args.variante]))
-fcm = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(fcm)
+# Carrega o algoritmo pelo caminho do arquivo (o hífen de k-means.py impede um 'import' normal)
+_spec = importlib.util.spec_from_file_location(args.algoritmo, ALGORITMOS[args.algoritmo])
+algoritmo = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(algoritmo)
+
+
+def fixa_semente():
+    # O FCM sorteia U com o 'random' do Python; o k-means sorteia os centroides com o NumPy
+    if not args.sem_semente:
+        random.seed(args.semente)
+        np.random.seed(args.semente)
 
 # ==========================================
 # 1. Função do Aluno
 # ==========================================
-def segmenta_imagem(imagem, k):
+def prepara_imagem(imagem):
+    """Converte a imagem PIL (RGB) para o formato de entrada do algoritmo, fora do cronômetro."""
+    return np.array(imagem) if args.algoritmo == "kmeans" else imagem
+
+
+def segmenta_imagem(entrada, k):
     """
-    Executa o FCM da variante escolhida sobre a imagem (PIL, RGB) já em memória.
-    Retorna a imagem segmentada e o número de iterações executadas.
+    Executa o algoritmo escolhido sobre a imagem já em memória.
+    Retorna a imagem segmentada (PIL) e o número de iterações executadas.
     """
+    if args.algoritmo == "kmeans":
+        segmentada = algoritmo.kmeans(entrada, k)
+        return Image.fromarray(segmentada), algoritmo.kmeans.passadas
+
     saida_fcm = io.StringIO()
     with contextlib.redirect_stdout(saida_fcm):
-        _, _, imagem_segmentada = fcm.fcm_processar_imagem(
-            img=imagem, K=k, m=2.0, max_iter=args.max_iter, epsilon=args.epsilon)
+        _, _, imagem_segmentada = algoritmo.fcm_processar_imagem(
+            img=entrada, K=k, m=2.0, max_iter=args.max_iter, epsilon=args.epsilon)
 
     # O FCM imprime "-> Convergiu na iteração X!" (X começa em 0)
     convergiu = re.search(r"iteração (\d+)", saida_fcm.getvalue())
@@ -65,12 +89,13 @@ def segmenta_imagem(imagem, k):
 # ==========================================
 # 2. Descoberta e Ordenação Ligeira (Sem estourar RAM)
 # ==========================================
-img_dir = os.path.join(PASTA, "imagens_fcm")  # gerada por gerar_imagens.py
+img_dir = os.path.join(RAIZ, "imagens", args.imagens)  # gerada por imagens/gerar_imagens.py
 k_list = [2, 3, 4]
 R = args.repeticoes # Número de repetições por combinação
 
-print(f"Variante: {args.variante} ({VARIANTES[args.variante]}) | R={R} | "
-      f"epsilon={args.epsilon} | max_iter={args.max_iter} | semente={args.semente}")
+print(f"Algoritmo: {args.algoritmo} | imagens: {args.imagens} | R={R} | "
+      f"epsilon={args.epsilon} | max_iter={args.max_iter} | "
+      f"semente={'nenhuma' if args.sem_semente else args.semente}")
 print("Mapeando imagens e calculando 'n' (apenas cabeçalhos)...")
 arquivos_n = []
 
@@ -106,26 +131,26 @@ for item in arquivos_n:
     # Carrega a imagem real para a RAM apenas no momento de usar
     # (a conversão fica fora do cronômetro)
     with Image.open(filepath) as img:
-        imagem = img.convert('RGB')
+        entrada = prepara_imagem(img.convert('RGB'))
 
     # Executa todas as repetições e Ks para esta imagem
     for k in k_list:
         for r in range(R):
-            # Mesma inicialização aleatória de U em todas as repetições,
+            # Mesmo estado inicial em todas as repetições,
             # para que o número de iterações não infle o CV
-            random.seed(args.semente)
+            fixa_semente()
 
             t0 = time.perf_counter()
-            seg_imagem, iteracoes = segmenta_imagem(imagem, k)
+            seg_imagem, iteracoes = segmenta_imagem(entrada, k)
             t1 = time.perf_counter()
             print(f"  k={k} repetição {r + 1}/{R}: {t1 - t0:.4f}s ({iteracoes} iterações)", flush=True)
 
             if r == 0:
-                nome_base = os.path.splitext(nome_arquivo)[0]
+                nome_base = os.path.splitext(nome_arquivo)[0].replace(" ", "_")
                 seg_imagem.save(os.path.join(pasta_saida, f"segmentada_{nome_base}_k{k}.png"))
 
             resultados.append({
-                'variante': args.variante,
+                'algoritmo': args.algoritmo,
                 'arquivo': nome_arquivo,
                 'n': n,
                 'k': k,
@@ -135,7 +160,7 @@ for item in arquivos_n:
             })
 
     # Libera a RAM explicitamente antes de carregar a próxima imagem
-    del imagem
+    del entrada
     print(f"Análise de {nome_arquivo} concluída. Memória liberada.")
 
 # Transforma os resultados em DataFrame
@@ -189,7 +214,7 @@ if not df_raw.empty:
         r2 = 1.0 - (ss_res / ss_tot) if ss_tot != 0 else 0.0
 
         print("\n" + "="*60)
-        print(f"   MODELO EMPÍRICO AJUSTADO: T(n, K) - variante {args.variante}")
+        print(f"   MODELO EMPÍRICO AJUSTADO: T(n, K) - {args.algoritmo}")
         print("="*60)
         print("Formulação Geral:")
         print("  T(n, K) = α·(n·K) + β·n + γ·K + δ\n")
@@ -223,9 +248,9 @@ if not df_raw.empty:
         resumo['tempo_predito'] = model_n_k(X_data, *popt)
         r2 = exibir_equacao_ajustada(popt, X_data, y_data)
 
-        # Coeficientes em arquivo próprio, para comparar Puro x SoA
+        # Coeficientes em arquivo próprio, para comparar algoritmos e variantes
         pd.DataFrame([{
-            'variante': args.variante, 'alpha': popt[0], 'beta': popt[1],
+            'algoritmo': args.algoritmo, 'alpha': popt[0], 'beta': popt[1],
             'gamma': popt[2], 'delta': popt[3], 'R2': r2
         }]).to_csv(os.path.join(pasta_saida, 'coeficientes.csv'),
                    index=False, float_format='%.6e', sep=';', decimal=',')
@@ -297,7 +322,7 @@ if not df_raw.empty:
         ax3.set_ylabel('Número de Clusters (K)')
         ax3.set_zlabel('Tempo (s)')
         ax3.set_yticks(k_list)
-        ax3.set_title(f'Superfície T(n, K) ajustada - FCM {args.variante}')
+        ax3.set_title(f'Superfície T(n, K) ajustada - {args.algoritmo}')
         ax3.legend()
 
         plt.tight_layout()

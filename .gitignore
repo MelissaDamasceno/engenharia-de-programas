@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Cache do matplotlib (MPLCONFIGDIR da calibracao_foca)
+.mplconfig/

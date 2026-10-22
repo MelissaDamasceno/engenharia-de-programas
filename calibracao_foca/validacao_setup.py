@@ -357,7 +357,7 @@ def gerar_relatorio_analise(dados, pasta_saida):
 
     # Gráfico 1
     conteudo.append("### Gráfico 1: Gráfico de Dispersão do Tempo de Execução x Tamanho da Entrada (N)\n\n")
-    conteudo.append(f"- **Arquivo da Imagem**: `eng_prog/atividade1/resultados_validacao/grafico1_dispersao.png`\n\n")
+    conteudo.append(f"- **Arquivo da Imagem**: `calibracao_foca/resultados_validacao/grafico1_dispersao.png`\n\n")
     conteudo.append("**Texto para o campo 'Interpretação de Resultados':**\n\n")
     texto_g1 = (
         "O gráfico de dispersão evidencia que, para tamanhos menores de entrada (N = 10.000), "
@@ -373,7 +373,7 @@ def gerar_relatorio_analise(dados, pasta_saida):
 
     # Gráfico 2
     conteudo.append("### Gráfico 2: Gráfico de Linha do Tempo Médio x Tamanho da Entrada (N)\n\n")
-    conteudo.append(f"- **Arquivo da Imagem**: `eng_prog/atividade1/resultados_validacao/grafico2_tempo_medio.png`\n\n")
+    conteudo.append(f"- **Arquivo da Imagem**: `calibracao_foca/resultados_validacao/grafico2_tempo_medio.png`\n\n")
     conteudo.append("**Texto para o campo 'Interpretação de Resultados':**\n\n")
     texto_g2 = (
         "A curva de crescimento do tempo central em função de N exibe uma trajetória estritamente linear (O(N)), "
@@ -387,7 +387,7 @@ def gerar_relatorio_analise(dados, pasta_saida):
 
     # Gráfico 3
     conteudo.append("### Gráfico 3: Gráfico de Desvio Padrão x Tamanho da Entrada (N)\n\n")
-    conteudo.append(f"- **Arquivo da Imagem**: `eng_prog/atividade1/resultados_validacao/grafico3_desvio_padrao.png`\n\n")
+    conteudo.append(f"- **Arquivo da Imagem**: `calibracao_foca/resultados_validacao/grafico3_desvio_padrao.png`\n\n")
     conteudo.append("**Texto para o campo 'Interpretação de Resultados':**\n\n")
     texto_g3 = (
         "A análise da variação absoluta dos tempos medidos revela desvios padrão extremamente reduzidos, mantendo-se na ordem "
@@ -400,7 +400,7 @@ def gerar_relatorio_analise(dados, pasta_saida):
 
     # Gráfico 4
     conteudo.append("### Gráfico 4: Gráfico do Coeficiente de Variação (CV) x Tamanho da Entrada (N)\n\n")
-    conteudo.append(f"- **Arquivo da Imagem**: `eng_prog/atividade1/resultados_validacao/grafico4_coeficiente_variacao.png`\n\n")
+    conteudo.append(f"- **Arquivo da Imagem**: `calibracao_foca/resultados_validacao/grafico4_coeficiente_variacao.png`\n\n")
     conteudo.append("**Texto para o campo 'Interpretação de Resultados':**\n\n")
     texto_g4 = (
         "O Coeficiente de Variação (CV) mede a dispersão relativa do experimento (Desvio Padrão / Tempo Médio). "

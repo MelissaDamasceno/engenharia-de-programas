@@ -5,30 +5,32 @@
 | `FCM_PURO_v3.py` | Código base da disciplina, **sem alterações** (grupo controle) |
 | `fcm_soa.py` | Nossa variante: pixels em `X_R`, `X_G`, `X_B` |
 | `teste_equivalencia.py` | Prova que Puro e SoA dão C, U e imagem idênticos com a mesma semente |
-| `gerar_imagens.py` | Gera `imagens_fcm/` com as fotos de `eng_prog/imagens/` em tamanhos irregulares (175×200 a 350×280) |
-| `experimentador_EP_2026.2.py` | Cópia adaptada do experimentador da disciplina |
+| `resultados/` | Bancada oficial (Puro e SoA), usada no relatório |
+| `relatorio/` | Relatório do Crédito 2 (`main.tex` e `main.pdf`) |
+
+O experimentador e o gerador de imagens ficam fora desta pasta, porque são compartilhados com as outras atividades: [`experimentador/`](../experimentador/) e [`imagens/`](../imagens/). As imagens desta bancada são as de `imagens/credito2/` (175×200 a 350×280).
 
 ## Preparar o ambiente (uma vez)
 
-Usar o Python 3.10.12 do sistema, o mesmo da calibração F.O.C.A.:
+Da raiz do repositório, usar o Python 3.10.12 do sistema, o mesmo da calibração F.O.C.A.:
 
 ```bash
 /usr/bin/python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
-.venv/bin/python gerar_imagens.py
-.venv/bin/python teste_equivalencia.py
+.venv/bin/python imagens/gerar_imagens.py
+.venv/bin/python fcm/teste_equivalencia.py
 ```
 
 ## Rodar a bancada
 
-Sempre na mesma máquina, na tomada e com os outros programas fechados:
+Sempre na mesma máquina, na tomada e com os outros programas fechados. Os comandos abaixo, executados da raiz, reproduzem a bancada oficial:
 
 ```bash
-.venv/bin/python experimentador_EP_2026.2.py --variante puro
-.venv/bin/python experimentador_EP_2026.2.py --variante soa
+.venv/bin/python experimentador/experimentador.py --algoritmo fcm_puro --imagens credito2 --saida fcm/resultados/puro
+.venv/bin/python experimentador/experimentador.py --algoritmo fcm_soa  --imagens credito2 --saida fcm/resultados/soa
 ```
 
-Cada rodada grava em `resultados/<variante>/`:
+Cada rodada grava na pasta de `--saida`:
 
 - `dados_brutos.csv`: todas as repetições, com tempo e número de iterações
 - `resultados_foca_aluno.csv`: média, desvio e CV por (n, K) (Tabela 1 do relatório)
@@ -37,7 +39,7 @@ Cada rodada grava em `resultados/<variante>/`:
 - `superficie_3d_foca.png`: Figura 2 (superfície ajustada com os pontos medidos)
 - `segmentada_*.png`: a segmentação da primeira repetição de cada (n, K)
 
-Opções: `--repeticoes` (padrão 30), `--epsilon` (0.0), `--max-iter` (20), `--semente` (42), `--saida` (`resultados`).
+Opções: `--repeticoes` (padrão 30), `--epsilon` (0.0), `--max-iter` (20), `--semente` (42). A bancada oficial foi rodada sem `taskset`, com o script que ficava nesta pasta (`experimentador_EP_2026.2.py`, no histórico do git). A única diferença do script atual é que a coluna `variante` dos CSVs passou a se chamar `algoritmo`.
 
 Com `epsilon = 0` o critério de convergência nunca é atingido, então toda execução faz exatamente `max-iter` iterações. Como as fotos são diferentes, isso impede que o número de iterações mude de uma imagem para outra e distorça T(n, K).
 

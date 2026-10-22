@@ -1,5 +1,6 @@
 from os import sched_get_priority_max
 from datetime import MAXYEAR
+import os
 import time
 
 import matplotlib.pyplot as plt
@@ -140,6 +141,6 @@ def kmeans(img, K):
     return segmented
 
 if __name__ == '__main__':
-    img = cv2.imread('imagem_original.jpg')
+    img = cv2.imread(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'imagens', 'originais', 'imagem_original.jpg'))
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # Formato jpg enxerga em BGR enquanto png, RGB
     kmeans(img, 2)

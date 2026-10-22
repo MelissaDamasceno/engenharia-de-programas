@@ -39,7 +39,7 @@ Tabela com os valores exatos para inserção na Seção 5 do PDF:
 
 ### Gráfico 1: Gráfico de Dispersão do Tempo de Execução x Tamanho da Entrada (N)
 
-- **Arquivo da Imagem**: `eng_prog/atividade1/resultados_validacao/grafico1_dispersao.png`
+- **Arquivo da Imagem**: `calibracao_foca/resultados_validacao/grafico1_dispersao.png`
 
 **Texto para o campo 'Interpretação de Resultados':**
 
@@ -47,7 +47,7 @@ Tabela com os valores exatos para inserção na Seção 5 do PDF:
 
 ### Gráfico 2: Gráfico de Linha do Tempo Médio x Tamanho da Entrada (N)
 
-- **Arquivo da Imagem**: `eng_prog/atividade1/resultados_validacao/grafico2_tempo_medio.png`
+- **Arquivo da Imagem**: `calibracao_foca/resultados_validacao/grafico2_tempo_medio.png`
 
 **Texto para o campo 'Interpretação de Resultados':**
 
@@ -55,7 +55,7 @@ Tabela com os valores exatos para inserção na Seção 5 do PDF:
 
 ### Gráfico 3: Gráfico de Desvio Padrão x Tamanho da Entrada (N)
 
-- **Arquivo da Imagem**: `eng_prog/atividade1/resultados_validacao/grafico3_desvio_padrao.png`
+- **Arquivo da Imagem**: `calibracao_foca/resultados_validacao/grafico3_desvio_padrao.png`
 
 **Texto para o campo 'Interpretação de Resultados':**
 
@@ -63,7 +63,7 @@ Tabela com os valores exatos para inserção na Seção 5 do PDF:
 
 ### Gráfico 4: Gráfico do Coeficiente de Variação (CV) x Tamanho da Entrada (N)
 
-- **Arquivo da Imagem**: `eng_prog/atividade1/resultados_validacao/grafico4_coeficiente_variacao.png`
+- **Arquivo da Imagem**: `calibracao_foca/resultados_validacao/grafico4_coeficiente_variacao.png`
 
 **Texto para o campo 'Interpretação de Resultados':**
 

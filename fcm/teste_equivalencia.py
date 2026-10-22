@@ -38,7 +38,7 @@ if __name__ == "__main__":
     puro = carrega_modulo("fcm_puro", "FCM_PURO_v3.py")
     soa = carrega_modulo("fcm_soa", "fcm_soa.py")
 
-    caminho = os.path.join(PASTA, "..", "eng_prog", "imagens", "imagem_original.jpg")
+    caminho = os.path.join(PASTA, "..", "imagens", "originais", "imagem_original.jpg")
     with Image.open(caminho) as original:
         img = original.convert("RGB").resize((60, 60))
 
